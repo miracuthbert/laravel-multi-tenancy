@@ -1,8 +1,8 @@
 module.exports = {
+    base: '/laravel-multi-tenancy/',
     title: 'Laravel Multi-Tenancy',
     description: 'A package that provides an easy and flexible way to add single database or multi-database multi-tenancy in your Laravel 5.8 app or above',
     themeConfig: {
-        base: '/laravel-multi-tenancy/',
         repo: 'miracuthbert/laravel-multi-tenancy',
         // Customising the header label
         // Defaults to "GitHub"/"GitLab"/"Bitbucket" depending on `themeConfig.repo`
