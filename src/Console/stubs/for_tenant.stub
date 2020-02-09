@@ -1,0 +1,13 @@
+<?php
+
+namespace DummyNamespace;
+
+use Illuminate\Database\Eloquent\Model;
+use Miracuthbert\Multitenancy\Traits\ForTenants;
+
+class DummyClass extends Model
+{
+    use ForTenants;
+
+    //
+}

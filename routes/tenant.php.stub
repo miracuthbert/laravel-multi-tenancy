@@ -1,0 +1,10 @@
+<?php
+
+/*
+ * ------------------------------------------------------------------
+ * Place all your 'tenant' routes here
+ * ------------------------------------------------------------------
+ *
+ * You can configure these routes in the 'tenancy' config file.
+ *
+ */

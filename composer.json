@@ -1,0 +1,58 @@
+{
+    "name": "miracuthbert/laravel-multi-tenancy",
+    "description": "A single database and multi-database multi-tenancy package for Laravel 5.8 and up",
+    "keywords": [
+        "miracuthbert",
+        "laravel",
+        "multi-tenancy",
+        "single-database-multi-tenancy",
+        "multi-database-multi-tenancy"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Cuthbert Mirambo",
+            "email": "miracuthbert@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.1.3",
+        "illuminate/console": "5.8.*|^6.0",
+        "illuminate/database": "5.8.*|^6.0",
+        "illuminate/support": "5.8.*|^6.0",
+        "illuminate/events": "5.8.*|^6.0",
+        "webpatser/laravel-uuid": "^3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.0",
+        "orchestra/testbench": "^3.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "Miracuthbert\\Multitenancy\\": "src/"
+        },
+        "files": [
+            "src/Helpers/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Miracuthbert\\Multitenancy\\Tests\\": "tests/"
+        },
+        "files": [
+            "src/Helpers/helpers.php"
+        ]
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Miracuthbert\\Multitenancy\\LaravelMultiTenancyServiceProvider"
+            ],
+            "aliases": {
+                "Tenancy": "Miracuthbert\\Multitenancy\\Facades\\Tenancy"
+            }
+        }
+    }
+}

@@ -1,0 +1,24 @@
+{
+  "name": "LaravelMultitenancy",
+  "version": "0.0.1",
+  "description": "Laravel Multi-tenancy Docs",
+  "scripts": {
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs"
+  },
+  "keywords": [
+    "miracuthbert",
+    "multi-tenancy",
+    "single-database-multi-tenancy",
+    "multi-database-multi-tenancy"
+  ],
+  "devDependencies": {
+    "vuepress": "^1.3.0"
+  },
+  "author": "Cuthbert Mirambo <miracuthbert@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/miracuthbert/laravel-multi-tenancy/issues"
+  },
+  "homepage": "https://github.com/miracuthbert/laravel-multi-tenancy#readme"
+}
