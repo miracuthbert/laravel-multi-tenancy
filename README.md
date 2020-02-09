@@ -2,7 +2,7 @@
 
 A single database and multi-database multi-tenancy package for Laravel 5.8 and up.
 
-For the full installation, configuration and usage, see the [Documentation](miracuthbert.github.io/laravel-multi-tenancy).
+For the full installation, configuration and usage, see the [Documentation](https://miracuthbert.github.io/laravel-multi-tenancy).
 
 ## Installation
 
@@ -33,7 +33,7 @@ This will setup:
 
 > You need to setup some of the required keys first in the `config/tenancy.php` file before migrating the database
 
-See the [Documentation](miracuthbert.github.io/laravel-multi-tenancy).
+See the [Documentation](https://miracuthbert.github.io/laravel-multi-tenancy).
 
 ## Security Vulnerabilities
 
