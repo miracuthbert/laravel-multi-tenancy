@@ -72,7 +72,25 @@ class MultiTenancy
     }
 
     /**
-     * Add default tenant columns to the table.
+     * Add tenant relationship columns to a table regardless of driver.
+     *
+     * @param \Illuminate\Database\Schema\Blueprint $table
+     * @return void
+     */
+    public static function tenantColumns(Blueprint $table)
+    {
+        self::buildForTenantColumns();
+
+        $table->unsignedBigInteger(static::$tenant_foreign_key)->index();
+
+        $table->foreign(static::$tenant_foreign_key)
+            ->references(static::$tenant_local_key)
+            ->on(static::$tenant_table)
+            ->onDelete('cascade');
+    }
+
+    /**
+     * Add default tenant columns to a tenant related table.
      *
      * @param \Illuminate\Database\Schema\Blueprint $table
      * @return void

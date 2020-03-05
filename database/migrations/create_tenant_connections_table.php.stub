@@ -15,7 +15,7 @@ class CreateTenantConnectionsTable extends Migration
     {
         Schema::create('tenant_connections', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->forTenant();
+            $table->tenantColumns();
             $table->string('database');
             $table->string('host')->nullable();
             $table->string('port')->nullable();

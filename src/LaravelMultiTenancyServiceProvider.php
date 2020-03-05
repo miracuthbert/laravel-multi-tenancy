@@ -302,6 +302,10 @@ class LaravelMultiTenancyServiceProvider extends ServiceProvider
             MultiTenancy::dropColumns($this);
         });
 
+        Blueprint::macro('tenantColumns', function () {
+            MultiTenancy::tenantColumns($this);
+        });
+
         Blueprint::macro('forTenant', function () {
             MultiTenancy::forTenantColumns($this);
         });
