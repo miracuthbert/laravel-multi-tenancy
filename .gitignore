@@ -2,6 +2,7 @@
 /vendor
 /.idea
 /.vscode
+composer.lock
 .env
 .env.backup
 .phpunit.result.cache
