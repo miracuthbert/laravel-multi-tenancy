@@ -45,4 +45,4 @@ If you discover a security vulnerability, please send an e-mail to Cuthbert Mira
 
 ## License
 
-Laravel Multi-Tenancy is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Laravel Multi-Tenancy is licensed under GPL-3.0-only. Please see the license file for more information.
