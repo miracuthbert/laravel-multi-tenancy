@@ -88,4 +88,20 @@ class Tenancy
 
         return $model;
     }
+
+    /**
+     * Get the class used to handle database creation statements.
+     *
+     * @return mixed
+     */
+    public function databaseCreatorStatement()
+    {
+        $config = config('tenancy');
+
+        $class = $config['connection']['database']['creator_statement'];
+
+        $class = isset($class) ? $class :  '\Miracuthbert\Multitenancy\Database\DatabaseCreatorStatement';
+
+        return $class;
+    }
 }

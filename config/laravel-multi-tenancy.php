@@ -89,13 +89,23 @@ return [
 
             /*
              *
-             * The prefix for the database name.
+             * The prefix for the tenant's database name.
              *
              * Note: It should not be changed once set to maintain consistency throughout the app.
              *
              */
 
             'prefix' => Str::slug(env('APP_NAME', 'laravel'), '_'),
+
+            /*
+             *
+             * The class that should be used to resolve database create statements based on connection.
+             *
+             * The default class handles: "mysql" and "pgsql".
+             *
+             */
+
+            'creator_statement' => \Miracuthbert\Multitenancy\Database\DatabaseCreatorStatement::class,
         ],
 
     ],

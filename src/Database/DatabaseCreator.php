@@ -51,7 +51,13 @@ class DatabaseCreator
         $charset = $this->getDatabaseCharset();
         $collation = $this->getDatabaseCollation();
 
-        return sprintf("CREATE DATABASE IF NOT EXISTS `%s`%s%s", $database, $charset, $collation);
+        $connection = $this->getDefaultConnectionName();
+        $databaseCreatorStatement = tenancy()->databaseCreatorStatement();
+
+        $method = method_exists(new $databaseCreatorStatement(), $connection . 'CreateDatabase') ? $connection : 'mysql';
+        $method .= 'CreateDatabase';
+
+        return $databaseCreatorStatement::$method($database, $charset, $collation);
     }
 
     /**
@@ -78,8 +84,17 @@ class DatabaseCreator
 
         $charset = config()->get($this->getConfigConnectionPath() . '.charset');
 
-        if (config()->has('database.connections.' . $this->getDefaultConnectionName() . '.charset')) {
-            return $this->charset = ' DEFAULT CHARACTER SET ' . $charset;
+        $connectionName = $this->getDefaultConnectionName();
+
+        if (config()->has('database.connections.' . $connectionName . '.charset')) {
+            switch ($connectionName) {
+                case "pgsql":
+                    $this->charset = ' ENCODING \'' . $charset . '\'';
+                    break;
+                case "mysql":
+                    $this->charset = ' DEFAULT CHARACTER SET ' . $charset;
+                    break;
+            }
         }
 
         return $this->charset;
@@ -96,8 +111,14 @@ class DatabaseCreator
 
         $collation = config()->get($this->getConfigConnectionPath() . '.collation');
 
-        if (config()->has('database.connections.' . $this->getDefaultConnectionName() . '.collation')) {
-            $this->collation = ' DEFAULT COLLATE ' . $collation;
+        $connectionName = $this->getDefaultConnectionName();
+
+        if (config()->has('database.connections.' . $connectionName . '.collation')) {
+            switch ($connectionName) {
+                case "mysql":
+                    $this->collation = ' DEFAULT COLLATE ' . $collation;
+                    break;
+            }
         }
 
         return $this->collation;
