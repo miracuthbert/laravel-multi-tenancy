@@ -22,6 +22,24 @@ class MigrationCreator extends BaseMigrationCreator
     public $forUsers = false;
 
     /**
+     * Create a new migration creator instance.
+     *
+     * @param  \Illuminate\Filesystem\Filesystem $files
+     * @param  string  $customStubPath
+     * @return void
+     */
+    public function __construct(Filesystem $files, $customStubPath = '')
+    {
+        if (property_exists(BaseMigrationCreator::class, 'customStubPath')) {
+            parent::__construct($files, $customStubPath);
+        } else {
+            parent::__construct($files);
+        }
+
+        $this->files = $files;
+    }
+
+    /**
      * Set whether the migration is used placed under tenant migrations.
      *
      * @param bool $forTenants

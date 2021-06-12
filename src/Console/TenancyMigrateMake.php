@@ -3,6 +3,7 @@
 namespace Miracuthbert\Multitenancy\Console;
 
 use Illuminate\Database\Console\Migrations\MigrateMakeCommand;
+use Illuminate\Database\Migrations\MigrationCreator;
 use Illuminate\Support\Composer;
 use Miracuthbert\Multitenancy\Traits\TenancyDriverTrait;
 use Symfony\Component\Console\Input\InputOption;
@@ -21,7 +22,7 @@ class TenancyMigrateMake extends MigrateMakeCommand
     /**
      * Create a new migration install command instance.
      *
-     * @param  \Miracuthbert\Multitenancy\Console\MigrationCreator $creator
+     * @param  \Illuminate\Database\Migrations\MigrationCreator $creator
      * @param  \Illuminate\Support\Composer $composer
      * @return void
      */

@@ -5,6 +5,7 @@ namespace Miracuthbert\Multitenancy;
 use Illuminate\Database\Schema\Blueprint;
 use Miracuthbert\Multitenancy\Cache\TenantCacheManager;
 use Miracuthbert\Multitenancy\Console\MigrateReset;
+use Miracuthbert\Multitenancy\Console\MigrationCreator;
 use Miracuthbert\Multitenancy\Console\TenancyMigrateMake;
 use Miracuthbert\Multitenancy\Console\TenancyModelMake;
 use Miracuthbert\Multitenancy\Console\TenancySetup;
@@ -54,6 +55,8 @@ class LaravelMultiTenancyServiceProvider extends ServiceProvider
 
         // tenant columns
         $this->registerTenantColumns();
+
+        $this->registerCreator();
 
         // migration commands
         $migratorCommands = array_merge([
@@ -238,6 +241,18 @@ class LaravelMultiTenancyServiceProvider extends ServiceProvider
     }
 
     /**
+     * Register the migration creator.
+     *
+     * @return void
+     */
+    protected function registerCreator()
+    {
+        $this->app->singleton('tenancy.migration.creator', function ($app) {
+            return new MigrationCreator($app['files'], $app->basePath('stubs'));
+        });
+    }
+
+    /**
      * Register package console only commands.
      *
      * @param array $more
@@ -246,8 +261,12 @@ class LaravelMultiTenancyServiceProvider extends ServiceProvider
     protected function registerPackageConsoleCommands($more = [])
     {
         if ($this->app->runningInConsole()) {
+            $this->app->singleton('command.tenancy.migration', function ($app) {
+                return new TenancyMigrateMake($app['tenancy.migration.creator'], $app['composer']);
+            });
+
             $this->commands(array_merge([
-                TenancyMigrateMake::class,
+                'command.tenancy.migration',
                 TenancyModelMake::class,
                 TenancySetup::class,
                 TenancyUsers::class,
@@ -274,13 +293,13 @@ class LaravelMultiTenancyServiceProvider extends ServiceProvider
 
         foreach ($migratorCommands as $command) {
             $this->app->singleton($command, function ($app) use ($command, $dbManager) {
-                return new $command($app->make('migrator'), $app->make($dbManager));
+                return new $command($app['migrator'], $app->make($dbManager));
             });
         }
 
         foreach ($dbCommands as $command) {
             $this->app->singleton($command, function ($app) use ($command, $dbManager) {
-                return new $command($app->make('db'), $app->make($dbManager));
+                return new $command($app['db'], $app->make($dbManager));
             });
         }
 
