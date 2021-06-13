@@ -15,6 +15,16 @@ abstract class DriverAbstract
     protected $events;
 
     /**
+     * Get the event dispatcher instance.
+     *
+     * @return \Illuminate\Contracts\Events\Dispatcher
+     */
+    public function getEvents()
+    {
+        return $this->events;
+    }
+
+    /**
      * Set the event dispatcher instance.
      *
      * @param  \Illuminate\Contracts\Events\Dispatcher $events

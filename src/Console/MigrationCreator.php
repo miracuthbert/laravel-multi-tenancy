@@ -35,8 +35,6 @@ class MigrationCreator extends BaseMigrationCreator
         } else {
             parent::__construct($files);
         }
-
-        $this->files = $files;
     }
 
     /**
@@ -58,6 +56,33 @@ class MigrationCreator extends BaseMigrationCreator
     public function setForUsers(bool $forUsers)
     {
         $this->forUsers = $forUsers;
+    }
+
+    /**
+     * Get the migration stub file.
+     *
+     * @param  string|null $table
+     * @param  bool        $create
+     * @return string
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
+    protected function getStub($table, $create)
+    {
+        if (is_null($table)) {
+            $stub = $this->files->exists($customPath = $this->customStubPath ?? '' . '/migration.stub')
+                ? $customPath
+                : $this->stubPath() . '/migration.stub';
+        } elseif ($create) {
+            $stub = $this->files->exists($customPath = $this->customStubPath ?? '' . '/create.stub')
+                ? $customPath
+                : $this->stubPath() . '/create.stub';
+        } else {
+            $stub = $this->files->exists($customPath = $this->customStubPath ?? '' . '/update.stub')
+                ? $customPath
+                : $this->stubPath() . '/update.stub';
+        }
+
+        return $this->files->get($stub);
     }
 
     /**

@@ -5,6 +5,7 @@ namespace Miracuthbert\Multitenancy\Console;
 use Illuminate\Database\Console\Migrations\MigrateCommand;
 use Illuminate\Database\Migrations\Migrator;
 use Miracuthbert\Multitenancy\Database\TenantDatabaseManager;
+use Miracuthbert\Multitenancy\TenancyDriver;
 use Miracuthbert\Multitenancy\Traits\Console\AcceptsMultipleTenants;
 use Miracuthbert\Multitenancy\Traits\Console\FetchesTenant;
 
@@ -34,7 +35,15 @@ class Migrate extends MigrateCommand
      */
     public function __construct(Migrator $migrator, TenantDatabaseManager $db)
     {
-        parent::__construct($migrator);
+        if (property_exists(MigrateCommand::class, 'dispatcher')) {
+            $driver = (app(TenancyDriver::class))->getDriver();
+
+            $dispatcher = $driver->getEvents();
+
+            parent::__construct($migrator, $dispatcher);
+        } else {
+            parent::__construct($migrator);
+        }
 
         $this->setName('tenants:migrate');
 
