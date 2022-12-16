@@ -36,6 +36,13 @@ return [
 
         /*
          *
+         * The column to query against in the tenant model when using "DB" store.
+         *
+         */
+        'db_key' => 'id',
+
+        /*
+         *
          * The route key used by the model.
          *
          * Used to fetch the tenant's unique identifier directly from the request.
@@ -267,7 +274,7 @@ return [
      * This controls the key and driver to use when switching or identifying
      * the tenant to be loaded.
      *
-     * Supported drivers: "session", "cache", "cookie"
+     * Supported drivers: "session", "cache", "cookie", "db"
      *
      */
     'store' => [
@@ -281,7 +288,14 @@ return [
 
         /*
          *
-         * Set whether to use Session, Cache or Cookie storing tenant in cache or session.
+         * The unique column used for storing tenant in "DB".
+         *
+         */
+        'db_key' => 'current_team_id',
+
+        /*
+         *
+         * Set whether to use Session, Cache, Cookie or Database to keep track of active tenant.
          *
          */
         'driver' => 'session',

@@ -46,6 +46,14 @@ class TenantStore
                 Cookie::queue($key, $value, 60);
                 return;
 
+            case 'db':
+                if (auth()->user()->{$key} !== $value) {
+                    auth()->user()->update([
+                        $key => $value // todo: set to match config key
+                    ]);
+                }
+                return;
+    
             default:
                 session()->put($key, $value);
                 return;
@@ -70,6 +78,9 @@ class TenantStore
             case 'cookie':
                 return Cookie::get($key);
 
+            case 'db':
+                return auth()->user()->{$key};
+    
             default:
                 return session()->get($key);
         }
@@ -82,6 +93,12 @@ class TenantStore
      */
     public function getStoreKeyIdentifier()
     {
-        return tenancy()->config()->storeKey() . '_' . Str::slug(request()->ip(), '_');
+        $prefix = tenancy()->config()->storeKey();
+
+        if (tenancy()->config()->storeDriver() === 'db') {
+            return tenancy()->config()->getOption('store.db_key');
+        }
+
+        return $prefix . '_' . Str::slug(request()->ip(), '_');
     }
 }
