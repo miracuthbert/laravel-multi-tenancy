@@ -199,6 +199,16 @@ return [
             'tenant' => [
 
             ],
+
+            /*
+             *
+             * The middleware to apply after the tenant middleware group.
+             *
+             */
+            'after' => [
+                // tenant_config
+                // theme_config
+            ],
         ],
 
         /*

@@ -61,7 +61,8 @@ class RouteServiceProvider extends ServiceProvider
         $middleware = array_merge(
             config('tenancy.routes.middleware.before', []), [
                 'tenant'
-            ]
+            ],
+            config('tenancy.routes.middleware.after', [])
         );
 
         Route::prefix(config('tenancy.routes.prefix'))
