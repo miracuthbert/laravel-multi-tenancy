@@ -38,8 +38,6 @@ class Seed extends SeedCommand
 
         $this->setName('tenants:seed');
 
-        $this->specifyParameters();
-
         $this->db = $db;
     }
 
