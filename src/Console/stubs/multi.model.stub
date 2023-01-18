@@ -2,6 +2,7 @@
 
 namespace DummyNamespace;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Miracuthbert\Multitenancy\Traits\IsTenant;
 use Miracuthbert\Multitenancy\Traits\ForSystem;
@@ -9,7 +10,7 @@ use Miracuthbert\Multitenancy\Models\Tenant;
 
 class DummyClass extends Model implements Tenant
 {
-    use IsTenant, ForSystem;
+    use IsTenant, ForSystem, HasFactory;
 
     /**
      * The attributes that are mass assignable.
