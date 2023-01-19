@@ -58,7 +58,9 @@ class Tenancy
     {
         $model = $this->tenantModel();
 
-        return $model->where(config('tenancy.model.key'), $value)->first();
+        $key = (tenancy()->config()->storeDriver() === 'db') ? config('tenancy.model.db_key') : config('tenancy.model.key');
+
+        return $model->where($key, $value)->first();
     }
 
     /**

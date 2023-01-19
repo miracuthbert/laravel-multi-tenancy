@@ -31,7 +31,7 @@ class SetTenant
             return config('tenancy.redirect.abort') ? abort(404) : redirect(config('tenancy.redirect.fallback_url'));
         }
 
-        if ($this->canAccessTenant($request, $inTenant, $tenant)) {
+        if ($this->cannotAccessTenant($request, $inTenant, $tenant)) {
             return config('tenancy.redirect.abort') ? abort(404) : redirect(config('tenancy.redirect.fallback_url'));
         }
 
@@ -52,7 +52,7 @@ class SetTenant
      * @param $tenant
      * @return bool
      */
-    protected function canAccessTenant($request, $inTenant, $tenant)
+    protected function cannotAccessTenant($request, $inTenant, $tenant)
     {
         return $inTenant && !$tenant->users->contains($request->user());
     }

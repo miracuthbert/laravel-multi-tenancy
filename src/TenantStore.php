@@ -49,7 +49,7 @@ class TenantStore
             case 'db':
                 if (auth()->user()->{$key} !== $value) {
                     auth()->user()->update([
-                        $key => $value // todo: set to match config key
+                        $key => $value
                     ]);
                 }
                 return;

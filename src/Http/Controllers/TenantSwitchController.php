@@ -17,7 +17,7 @@ class TenantSwitchController extends Controller
      */
     public function __invoke(Request $request, $tenant)
     {
-        $key = config('tenancy.model.key');
+        $key = (tenancy()->config()->storeDriver() === 'db') ? config('tenancy.model.db_key') : config('tenancy.model.key');
 
         tenancy()->store()->putKey($tenant->{$key});
 
