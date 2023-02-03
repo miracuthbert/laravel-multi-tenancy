@@ -13,9 +13,10 @@ class SetTenant
      *
      * @param  \Illuminate\Http\Request $request
      * @param  \Closure $next
+     * @param  string|null $guard
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next, $guard = null)
     {
         $paramKey = tenancy()->config()->getOption('model.route_key');
 
@@ -31,8 +32,10 @@ class SetTenant
             return config('tenancy.redirect.abort') ? abort(404) : redirect(config('tenancy.redirect.fallback_url'));
         }
 
-        if ($this->cannotAccessTenant($request, $inTenant, $tenant)) {
-            return config('tenancy.redirect.abort') ? abort(404) : redirect(config('tenancy.redirect.fallback_url'));
+        if ($guard !== 'guest') {
+            if ($this->cannotAccessTenant($request, $inTenant, $tenant)) {
+                return config('tenancy.redirect.abort') ? abort(404) : redirect(config('tenancy.redirect.fallback_url'));
+            }
         }
 
         event(new TenantIdentified($tenant));
