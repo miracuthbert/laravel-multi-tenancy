@@ -65,10 +65,19 @@ class RouteServiceProvider extends ServiceProvider
             config('tenancy.routes.middleware.after', [])
         );
 
-        Route::prefix(config('tenancy.routes.prefix'))
-            ->middleware($middleware)
-            ->namespace($this->namespace)
-            ->as(config('tenancy.routes.as'))
-            ->group(config('tenancy.routes.file'));
+        if (config('tenancy.routes.subdomain', false)) {
+            $appUrl = env('APP_URL');
+            Route::domain('{tenant}.' . $appUrl)
+                ->middleware($middleware)
+                ->namespace($this->namespace)
+                ->as(config('tenancy.routes.as'))
+                ->group(config('tenancy.routes.file'));
+        } else {
+            Route::prefix(config('tenancy.routes.prefix'))
+                ->middleware($middleware)
+                ->namespace($this->namespace)
+                ->as(config('tenancy.routes.as'))
+                ->group(config('tenancy.routes.file'));
+        }
     }
 }
