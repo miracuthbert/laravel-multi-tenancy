@@ -28,7 +28,10 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Route::bind(config('tenancy.routes.subdomain_request_key', 'tenant_domain'), function ($value) {
+            $class = config('tenancy.model.class');
+            return $class::where('domain', $value)->firstOrFail();
+        });
 
         parent::boot();
     }

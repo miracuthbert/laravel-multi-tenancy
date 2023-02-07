@@ -131,10 +131,31 @@ return [
          *
          * Set whether to use sub-domains.
          *
-         * Not currently supported.
+         * Still in debug mode.
          *
          */
         'subdomain' => false,
+
+        /*
+         *
+         * The slug or value that package will use to identify subdomain from url.
+         *
+         * It will also be used to assign the default parameter for routes in the
+         * subdomain group.
+         *
+         * Note: Unless this key conflicts with another, don't change.
+         *
+         */
+        'subdomain_request_key' => "tenant_domain",
+
+        /*
+         *
+         * The slug or value corresponding to a field in the tenant model.
+         *
+         * Note: if using default setup, it is the "domain" field.
+         *
+         */
+        'subdomain_key' => "domain",
 
         /*
          *

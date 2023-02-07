@@ -58,7 +58,11 @@ class Tenancy
     {
         $model = $this->tenantModel();
 
-        $key = (tenancy()->config()->storeDriver() === 'db') ? config('tenancy.model.db_key') : config('tenancy.model.key');
+        if (tenancy()->config()->getOption('routes.subdomain')) {
+            $key = tenancy()->config()->getOption('routes.subdomain_key', 'domain');
+        } else {
+            $key = (tenancy()->config()->storeDriver() === 'db') ? config('tenancy.model.db_key') : config('tenancy.model.key');
+        }
 
         return $model->where($key, $value)->first();
     }

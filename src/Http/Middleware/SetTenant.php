@@ -18,13 +18,22 @@ class SetTenant
      */
     public function handle($request, Closure $next, $guard = null)
     {
+        $subdomainKey = config('tenancy.routes.subdomain_request_key', 'tenant_domain');
+
+        // set default subdomain key if it exists
+        \Illuminate\Support\Facades\URL::defaults([$subdomainKey => $request->{$subdomainKey}]);
+
         $paramKey = tenancy()->config()->getOption('model.route_key');
 
         $options = tenancy()->config()->getOption('routes.middleware.set_tenant');
 
         list('in_tenant' => $inTenant, 'in_header' => $inHeader) = $options;
 
-        $value = $inHeader ? $request->header(TenantStore::TENANT_HEADER) : tenancy()->store()->getKey($request->{$paramKey});
+        if (tenancy()->config()->getOption('routes.subdomain')) {
+            $value = ($request->{$subdomainKey});
+        } else {
+            $value = $inHeader ? $request->header(TenantStore::TENANT_HEADER) : tenancy()->store()->getKey($request->{$paramKey});
+        }
 
         $tenant = tenancy()->resolveTenant($value);
 
