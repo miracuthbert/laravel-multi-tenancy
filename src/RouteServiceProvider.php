@@ -69,8 +69,11 @@ class RouteServiceProvider extends ServiceProvider
         );
 
         if (config('tenancy.routes.subdomain', false)) {
+            $subdomainRequestKey = config('tenancy.routes.subdomain_request_key', 'tenant_domain');
+
             $appUrl = env('APP_URL');
-            Route::domain('{tenant}.' . $appUrl)
+
+            Route::domain('{' . $subdomainRequestKey . '}.' . $appUrl)
                 ->middleware($middleware)
                 ->namespace($this->namespace)
                 ->as(config('tenancy.routes.as'))
