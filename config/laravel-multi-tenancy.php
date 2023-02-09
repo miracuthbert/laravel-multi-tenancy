@@ -129,9 +129,16 @@ return [
 
         /*
          *
-         * Set whether to use sub-domains.
+         * Set whether to use subdomains.
          *
-         * Still in debug mode.
+         * The package supports subdomain routing and handles all the setup
+         * that is required within the package.
+         *
+         * Note: You should make sure your server is enabled to use wildcard
+         * subdomains.
+         *
+         * When enabled you should set the 'route' value to be used for
+         * redirection in the 'redirect' section below.
          *
          */
         'subdomain' => false,
@@ -263,6 +270,20 @@ return [
          *
          */
         'url' => '/',
+
+        /*
+         *
+         * The route name to redirect used when a tenant is switched.
+         * 
+         * Applied when using subdomain.
+         * 
+         * eg. 'tenant.home', 'tenant.dashboard'
+         *
+         * Note: This route should exist in your 'routes/tenant.php'
+         * file.
+         *
+         */
+        'route' => '',
 
         /*
          *

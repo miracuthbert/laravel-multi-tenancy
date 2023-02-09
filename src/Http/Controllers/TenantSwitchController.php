@@ -21,6 +21,17 @@ class TenantSwitchController extends Controller
 
         tenancy()->store()->putKey($tenant->{$key});
 
+        $config = tenancy()->config();
+
+        if ($config->getOption('routes.subdomain', false) && $config->getOption('redirect.route')) {
+            $key = tenancy()->config()->getOption('routes.subdomain_key', 'domain');
+
+            return redirect()->route(
+                config('tenancy.redirect.route'),
+                $tenant->{$key}
+            );
+        }
+
         return redirect(config('tenancy.redirect.url', '/'));
     }
 }
