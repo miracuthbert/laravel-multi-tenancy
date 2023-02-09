@@ -134,15 +134,7 @@ class LaravelMultiTenancyServiceProvider extends ServiceProvider
      */
     protected function registerRoutes()
     {
-        if (true) {
-            Route::group([
-                'prefix' => '/tenant',
-                'namespace' => 'Miracuthbert\Multitenancy\Http\Controllers',
-                'as' => 'tenant.',
-            ], function () {
-                $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
-            });
-        }
+        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
     }
 
     /**
