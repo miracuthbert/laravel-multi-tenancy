@@ -7,10 +7,11 @@ use Illuminate\Database\Migrations\Migrator;
 use Miracuthbert\Multitenancy\Database\TenantDatabaseManager;
 use Miracuthbert\Multitenancy\Traits\Console\AcceptsMultipleTenants;
 use Miracuthbert\Multitenancy\Traits\Console\FetchesTenant;
+use Miracuthbert\Multitenancy\Traits\Console\MigrationHelperTrait;
 
 class MigrateReset extends ResetCommand
 {
-    use FetchesTenant, AcceptsMultipleTenants;
+    use FetchesTenant, AcceptsMultipleTenants, MigrationHelperTrait;
 
     /**
      * The console command description.
@@ -74,17 +75,5 @@ class MigrateReset extends ResetCommand
             // purge tenant's connection
             $this->db->purge();
         });
-    }
-
-    /**
-     * Get all of the migration paths.
-     *
-     * @return array
-     */
-    protected function getMigrationPaths()
-    {
-        return [
-            database_path('migrations/tenant')
-        ];
     }
 }

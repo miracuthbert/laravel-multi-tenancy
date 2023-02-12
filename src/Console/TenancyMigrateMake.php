@@ -78,8 +78,10 @@ class TenancyMigrateMake extends MigrateMakeCommand
         }
 
         if ($forTenants !== false && $this->driverHasDatabaseManager()) {
+        	$feature = (!empty($this->option('feature'))) ? (DIRECTORY_SEPARATOR . $this->option('feature')) : '';
+
             $this->input->setOption('path',
-                database_path('migrations' . DIRECTORY_SEPARATOR . 'tenant')
+                database_path('migrations' . DIRECTORY_SEPARATOR . 'tenant' . $feature)
             );
 
             $this->input->setOption('realpath', true);
@@ -102,6 +104,8 @@ class TenancyMigrateMake extends MigrateMakeCommand
             ['users', null, InputOption::VALUE_OPTIONAL, 'Creates a migration for tenant users relation', false],
 
             ['multi', null, InputOption::VALUE_OPTIONAL, 'Creates a migration for a multi-database tenant', false],
+
+            ['feature', null, InputOption::VALUE_OPTIONAL, 'Creates a migration under specified directory', null],
         ], parent::getOptions());
     }
 

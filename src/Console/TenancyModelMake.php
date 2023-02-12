@@ -77,22 +77,24 @@ class TenancyModelMake extends ModelMakeCommand
     {
         $table = $this->getTableName();
 
-        $forTenants = ['--for-tenant' => false];
+        $disableForTenants = ['--for-tenant' => false];
 
         if ($this->option('for-tenant') === false) {
+            // create a migration that adds tenant columns to database
             if ($this->option('columns-only') !== false) {
                 $this->call('tenancy:migration', array_merge([
                     'name' => "add_tenant_columns_to_{$table}_table",
                     '--table' => $table,
-                ], $forTenants));
+                ], $disableForTenants));
 
                 return;
             }
 
+            // create a new table for tenant
             $this->call('tenancy:migration', array_merge([
                 'name' => "create_{$table}_table",
                 '--create' => $table,
-            ], $forTenants));
+            ], $disableForTenants));
 
             return;
         }
@@ -101,6 +103,7 @@ class TenancyModelMake extends ModelMakeCommand
             'name' => "create_{$table}_table",
             '--create' => $table,
             '--for-tenant' => true,
+            '--feature' => $this->option('feature'),
         ]);
     }
 
@@ -144,6 +147,8 @@ class TenancyModelMake extends ModelMakeCommand
             ['columns-only', null, InputOption::VALUE_OPTIONAL, 'Creates a migration that adds only tenant columns to an existing table', false],
 
             ['no-users', null, InputOption::VALUE_OPTIONAL, 'Indicates that a migration for tenant users relation should not be created', false],
+
+            ['feature', null, InputOption::VALUE_OPTIONAL, 'Creates a migration under specified directory', null],
         ], parent::getOptions());
     }
 
