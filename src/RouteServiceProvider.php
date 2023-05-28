@@ -62,9 +62,11 @@ class RouteServiceProvider extends ServiceProvider
         }
 
         $middleware = array_merge(
-            config('tenancy.routes.middleware.before', []), [
+            config('tenancy.routes.middleware.before', []),
+            [
                 'tenant'
             ],
+            config('tenancy.routes.middleware.tenant', []),
             config('tenancy.routes.middleware.after', [])
         );
 
