@@ -71,19 +71,42 @@ class Tenancy
     }
 
     /**
+     * Get subdomain safe routes list.
+     * 
+     * @return array|null
+     */
+    public function subdomainSafeRoutes()
+    {
+        return tenancy()->config()->getOption('routes.subdomain_safe_routes');
+    }
+
+    /**
+     * Determine if current route is a non-tenant based subdomain.
+     * 
+     * @return bool
+     */
+    public function subdomainSafeCheck()
+    {
+        $subdomainSafeRoutes = $this->subdomainSafeRoutes();
+
+        return empty($subdomainSafeRoutes) ? false : request()->routeIs($subdomainSafeRoutes);
+    }
+
+    /**
      * Resolve the tenant.
      *
-     * @param $value
-     * @return mixed
+     * @param  int|string $value
+     * @param  bool       $ignoreSubdomainCheck
+     * @return \Illuminate\Database\Eloquent\Model|null
      */
-    public function resolveTenant($value, $ignoreSubdomain = false)
+    public function resolveTenant($value, $ignoreSubdomainCheck = false)
     {
         $model = $this->tenantModel();
 
-        if (tenancy()->config()->getOption('routes.subdomain') && $ignoreSubdomain == false) {
+        if (tenancy()->config()->getOption('routes.subdomain') && $ignoreSubdomainCheck == false) {
             $key = tenancy()->config()->getOption('routes.subdomain_key', 'domain');
         } else {
-            $key = (tenancy()->config()->storeDriver() === 'db') ? config('tenancy.model.db_key') : config('tenancy.model.key');
+            $key = $this->getTenantDriverStoreKey();
         }
 
         return $model->where($key, $value)->first();
