@@ -8,6 +8,28 @@ class Tenancy
 {
     use TenancyDriverTrait;
 
+    public function tenantMiddlewares($before = [], $after = [], $defaults = ['tenant'])
+    {
+        return array_merge(
+            config('tenancy.routes.middleware.before', []),
+            $before,
+            config('tenancy.routes.middleware.tenant', []),
+            $defaults,
+            config('tenancy.routes.middleware.after', []),
+            $after
+        );
+    }
+
+    /**
+     * Get tenant's model store key based on default driver.
+     *
+     * @return string
+     */
+    public function getTenantDriverStoreKey()
+    {
+        return (tenancy()->config()->storeDriver() === 'db') ? config('tenancy.model.db_key') : config('tenancy.model.key');
+    }
+
     /**
      * Get an instance of the Tenant manager.
      *
