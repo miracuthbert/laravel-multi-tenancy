@@ -166,6 +166,23 @@ return [
 
         /*
          *
+         * The routes that use 'tenant' middleware but are under a
+         * non-tenant subdomain.
+         *
+         * Example: 'cms.*', 'crm.*', 'blog.*'
+         *
+         * Tenant will be resolved from store rather than subdomain.
+         *
+         * Note: Make sure the user knows which tenant account they are
+         * using.
+         *
+         */
+        'subdomain_safe_routes' => [
+            // 'projects.*',
+        ],
+
+        /*
+         *
          * The tenant routes prefix.
          *
          */

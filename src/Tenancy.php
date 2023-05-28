@@ -76,11 +76,11 @@ class Tenancy
      * @param $value
      * @return mixed
      */
-    public function resolveTenant($value)
+    public function resolveTenant($value, $ignoreSubdomain = false)
     {
         $model = $this->tenantModel();
 
-        if (tenancy()->config()->getOption('routes.subdomain')) {
+        if (tenancy()->config()->getOption('routes.subdomain') && $ignoreSubdomain == false) {
             $key = tenancy()->config()->getOption('routes.subdomain_key', 'domain');
         } else {
             $key = (tenancy()->config()->storeDriver() === 'db') ? config('tenancy.model.db_key') : config('tenancy.model.key');

@@ -29,7 +29,11 @@ class SetTenant
 
         list('in_tenant' => $inTenant, 'in_header' => $inHeader) = $options;
 
-        if (tenancy()->config()->getOption('routes.subdomain')) {
+        $subdomainSafeRoutes = tenancy()->config()->getOption('routes.subdomain_safe_routes');
+
+        $subomainSafeCheck = empty($subdomainSafeRoutes) ? false : $request->routeIs($subdomainSafeRoutes);
+
+        if (tenancy()->config()->getOption('routes.subdomain') && empty($subomainSafeCheck)) {
             $value = ($request->{$subdomainKey});
         } else {
             $value = $inHeader ? $request->header(TenantStore::TENANT_HEADER) : tenancy()->store()->getKey($request->{$paramKey});
