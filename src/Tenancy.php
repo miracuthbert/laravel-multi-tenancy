@@ -2,6 +2,7 @@
 
 namespace Miracuthbert\Multitenancy;
 
+use Closure;
 use Miracuthbert\Multitenancy\Traits\TenancyDriverTrait;
 
 class Tenancy
@@ -48,6 +49,33 @@ class Tenancy
     public function tenant()
     {
         return $this->manager()->getTenant();
+    }
+
+    /**
+     * Carry out non-tenant tasks and resume tenant session when done.
+     *
+     * @return mixed
+     */
+    public function runNonTenantTask(Closure $callable)
+    {
+        $tenant = $this->manager()->getTenant();
+
+        $this->manager()->clearTenant();
+
+        $callable();
+
+        $this->setTenant($tenant);
+    }
+
+    /**
+     * Set tenant for session or request.
+     *
+     * @param  \Miracuthbert\Multitenancy\Models\Tenant $tenant
+     * @return void
+     */
+    public function setTenant($tenant)
+    {
+        $this->manager()->setTenant($tenant);
     }
 
     /**
