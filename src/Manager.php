@@ -34,6 +34,16 @@ class Manager
     }
 
     /**
+     * Clear tenant.
+     *
+     * @return void
+     */
+    public function clearTenant()
+    {
+        $this->tenant = null;
+    }
+
+    /**
      * Check if tenant exists in request.
      *
      * @return bool
