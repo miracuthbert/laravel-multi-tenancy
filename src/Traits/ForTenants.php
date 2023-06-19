@@ -60,7 +60,9 @@ trait ForTenants
     {
         $driver = tenancy()->driver();
 
-        if ($driver->hasDatabaseManager()) {
+        $manager = tenancy()->manager();
+
+        if ($manager->hasTenant() && $driver->hasDatabaseManager()) {
             return 'tenant';
         }
 
