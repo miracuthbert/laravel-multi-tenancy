@@ -4,15 +4,14 @@ namespace Miracuthbert\Multitenancy\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Miracuthbert\Multitenancy\TenantStore;
+use Illuminate\Support\Arr;
 
 class TenantSwitchController extends Controller
 {
     /**
      * Handle the incoming request.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param mixed $tenant
+     * @param  mixed  $tenant
      * @return \Illuminate\Http\Response
      */
     public function __invoke(Request $request, $tenant)
@@ -27,8 +26,8 @@ class TenantSwitchController extends Controller
             $key = tenancy()->config()->getOption('routes.subdomain_key', 'domain');
 
             return redirect()->route(
-                config('tenancy.redirect.route'),
-                $tenant->{$key}
+                $request->redirect_to ?? config('tenancy.redirect.route'),
+                array_merge([$tenant->{$key}], Arr::wrap($request->redirect_params))
             );
         }
 
