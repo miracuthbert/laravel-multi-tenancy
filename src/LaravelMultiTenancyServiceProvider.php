@@ -216,6 +216,12 @@ class LaravelMultiTenancyServiceProvider extends ServiceProvider
         // add tenant middleware group
         $router->middlewareGroup('tenant', $tenantMiddleware);
 
+        $additionalMiddlewareGroups = config('tenancy.routes.middleware.groups', []);
+
+        foreach ($additionalMiddlewareGroups as $key => $middleware) {
+            $router->middlewareGroup($key, $middleware);
+        }
+
         // get app's middleware priority list
         $mp = $router->middlewarePriority;
 
@@ -226,7 +232,7 @@ class LaravelMultiTenancyServiceProvider extends ServiceProvider
         $collection = collect($mp);
 
         // add tenant middleware to collection
-        $collection->splice($index, 0, $tenantMiddleware)->all();
+        $collection->splice($index, 0, array_merge($tenantMiddleware, Arr::flatten($additionalMiddlewareGroups)))->all();
 
         // reassign the middleware priority with the new list
         $router->middlewarePriority = $collection->all();

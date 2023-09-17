@@ -261,6 +261,28 @@ return [
                 // tenant_config
                 // theme_config
             ],
+
+            /*
+             *
+             * Custom tenant middleware to use according to your requirements app wide.
+             *
+             * Use \Miracuthbert\Multitenancy\Http\Middleware\SetTenant::class as reference
+             * when defining custom middleware to suit your needs.
+             *
+             * They provide the same function as 'tenant' middleware group (SetTenant::ckass)
+             * with exception to checking whether the request user can access tenant.
+             * 
+             * Suitable for use in 'guest' routes when you need to display 'tenant' data
+             * for public; eg. blogs, cms, etc
+             *
+             * Note: 'tenant' middleware group will have top priority compared to values
+             * registered below. Do not use them on the same routes.
+             */
+            'groups' => [
+                'tenant.guest' => [
+                    \Miracuthbert\Multitenancy\Http\Middleware\ResolveTenantAsGuest::class,
+                ],
+            ],
         ],
 
         /*
