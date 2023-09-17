@@ -11,9 +11,8 @@ class SetTenant
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Closure $next
-     * @param  string|null $guard
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string|null  $guard
      * @return mixed
      */
     public function handle($request, Closure $next, $guard = null)
@@ -27,7 +26,7 @@ class SetTenant
 
         $options = tenancy()->config()->getOption('routes.middleware.set_tenant');
 
-        list('in_tenant' => $inTenant, 'in_header' => $inHeader) = $options;
+        ['in_tenant' => $inTenant, 'in_header' => $inHeader] = $options;
 
         $subdomainSafeRoutes = tenancy()->config()->getOption('routes.subdomain_safe_routes');
 
@@ -41,7 +40,7 @@ class SetTenant
 
         $tenant = tenancy()->resolveTenant($value, $subdomainSafeCheck);
 
-        if (!$tenant) {
+        if (! $tenant) {
             return config('tenancy.redirect.abort') ? abort(404) : redirect(config('tenancy.redirect.fallback_url'));
         }
 
@@ -63,13 +62,10 @@ class SetTenant
     /**
      * Check if current user is authorized to access tenant.
      *
-     * @param $request
-     * @param $inTenant
-     * @param $tenant
      * @return bool
      */
     protected function cannotAccessTenant($request, $inTenant, $tenant)
     {
-        return $inTenant && !$tenant->users->contains($request->user());
+        return $inTenant && ! $tenant->users->contains($request->user());
     }
 }

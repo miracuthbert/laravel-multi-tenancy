@@ -123,13 +123,17 @@ class Tenancy
     /**
      * Resolve the tenant.
      *
-     * @param  int|string $value
+     * @param  int|string|\Illuminate\Database\Eloquent\Model $value
      * @param  bool       $ignoreSubdomainCheck
      * @return \Illuminate\Database\Eloquent\Model|null
      */
     public function resolveTenant($value, $ignoreSubdomainCheck = false)
     {
         $model = $this->tenantModel();
+
+        if ($value instanceof $model) {
+            return $value;
+        }
 
         if (tenancy()->config()->getOption('routes.subdomain') && $ignoreSubdomainCheck == false) {
             $key = tenancy()->config()->getOption('routes.subdomain_key', 'domain');
