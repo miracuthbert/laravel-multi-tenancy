@@ -25,6 +25,10 @@ class TenantSwitchController extends Controller
         if ($config->getOption('routes.subdomain', false) && $config->getOption('redirect.route')) {
             $key = tenancy()->config()->getOption('routes.subdomain_key', 'domain');
 
+            if (($url = $request->redirect_url)) {
+                return redirect($url);
+            }
+
             return redirect()->route(
                 $request->redirect_to ?? config('tenancy.redirect.route'),
                 array_merge([$tenant->{$key}], Arr::wrap($request->redirect_params))
