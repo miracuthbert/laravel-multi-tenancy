@@ -32,7 +32,8 @@ class SetUpTenantDatabase
     protected function migrate(Tenant $tenant)
     {
         $migration = Artisan::call('tenants:migrate', [
-            '--tenants' => [$tenant->id]
+            '--tenants' => [$tenant->id],
+            '--force' => true,
         ]);
 
         return $migration === 0;
@@ -47,7 +48,8 @@ class SetUpTenantDatabase
     protected function seed(Tenant $tenant)
     {
         return Artisan::call('tenants:seed', [
-            '--tenants' => [$tenant->id]
+            '--tenants' => [$tenant->id],
+            '--force' => true,
         ]);
     }
 }
